@@ -1,4 +1,4 @@
-﻿#This script will configure a Landis Contact Center resource account to be used as a transfer option in a MS Teams Auto Attendant.
+﻿#This script will configure a Landis Contact Center queue resource account to be used as a transfer option in a MS Teams Auto Attendant.
 
 #Prerequisites:
     #Active connection to Skype for Business online powershell
