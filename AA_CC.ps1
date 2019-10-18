@@ -39,7 +39,7 @@ $global:selection = $null
 Clear-Host
 Do
 {
-    Write-Host 'Destination Resource Account:'
+    Write-Host 'Resource Account to transfer to:'
 
     for ($i=0; $i -lt $RAS.count; $i++)
     {
@@ -99,7 +99,7 @@ $global:selection = $null
 Clear-Host
 Do
 {
-    Write-Host 'Auto Attendant Dial Key to Associate with Resource Account:'
+    Write-Host 'Auto Attendant Dial Key to transfer to Resource Account:'
 
     for ($i=0; $i -lt $dial_Key.count; $i++)
     {
