@@ -216,5 +216,7 @@ If ($Object -like "Business Hours Call Flow") {
     }
 }
 
-
-Set-CsAutoAttendant -Instance $aa
+Try{
+    Set-CsAutoAttendant -Instance $aa
+} catch {Throw "Cannot Edit Auto Attendant. " + $error[0]}
+Write-Host "Auto attendant configuration changed sucessfully!"
