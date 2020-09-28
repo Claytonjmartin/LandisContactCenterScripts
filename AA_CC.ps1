@@ -129,13 +129,13 @@ If ($Object -like "Holiday") {
     $global:selection = $HCF[$ans - 1]
     $HN = $global:selection.Name
     $holiday = $HCF | where Name -Like $HN | select -First 1
-    $Callable_Entity = New-CsAutoAttendantCallableEntity -Identity $RA_ObjectID -Type ApplicationEndpoint
+    $Callable_Entity = New-CsAutoAttendantCallableEntity -Identity $RA_ObjectID -Type ApplicationEndpoint -EnableTranscription $false
     $holidayMO = New-CsAutoAttendantMenuOption -Action TransferCallToTarget -CallTarget $Callable_Entity -DtmfResponse Automatic
     $holiday.Menu.MenuOptions = $holidayMO
 }
 
 If ($Object -like "Operator") {
-    $aa.Operator = New-CsAutoAttendantCallableEntity -Identity $RA_ObjectID -Type ApplicationEndpoint
+    $aa.Operator = New-CsAutoAttendantCallableEntity -Identity $RA_ObjectID -Type ApplicationEndpoint -EnableTranscription $false
 }
 
 If ($Object -like "After Hours Call Flow") {
@@ -145,13 +145,13 @@ If ($Object -like "After Hours Call Flow") {
         $action = Get-AAAction
         if ($action -like "Redirect Call") {
             $AHCFM.Action = "TransferCallToTarget"
-            $AHCFM.CallTarget = New-CsAutoAttendantCallableEntity -Identity $RA_ObjectID -Type ApplicationEndpoint
+            $AHCFM.CallTarget = New-CsAutoAttendantCallableEntity -Identity $RA_ObjectID -Type ApplicationEndpoint -EnableTranscription $false
         }
         if ($action -like "Menu Options") {
             $key = Get-AAKey
             $AHCFM.Action = "TransferCallToTarget"
             $AHCFM.DtmfResponse = $key
-            $AHCFM.CallTarget = New-CsAutoAttendantCallableEntity -Identity $RA_ObjectID -Type ApplicationEndpoint
+            $AHCFM.CallTarget = New-CsAutoAttendantCallableEntity -Identity $RA_ObjectID -Type ApplicationEndpoint -EnableTranscription $false
             $AHCF.Prompts = New-CsAutoAttendantPrompt -TextToSpeechPrompt "This is a default greeting. Please edit in the Teams Admin Center."                
         }
     }
@@ -162,10 +162,11 @@ If ($Object -like "After Hours Call Flow") {
             $mo.Action = "TransferCallToTarget"
             $mo.CallTarget.Type = "ApplicationEndpoint"
             $mo.CallTarget.ID = $RA_ObjectID
+            $mo.CallTarget.EnableTranscription = $false
         }
 
         if ($mo -eq $null) {
-            $Callable_Entity = New-CsAutoAttendantCallableEntity -Identity $RA_ObjectID -Type ApplicationEndpoint
+            $Callable_Entity = New-CsAutoAttendantCallableEntity -Identity $RA_ObjectID -Type ApplicationEndpoint -EnableTranscription $false
             $menuOption = New-CsAutoAttendantMenuOption -Action TransferCallToTarget -DtmfResponse $key -CallTarget $Callable_Entity
             if ($AHCF.MenuOptions -ne $null) {
                 $AHCF.MenuOptions.Add($menuOption)
@@ -178,19 +179,19 @@ If ($Object -like "After Hours Call Flow") {
 }
 
 If ($Object -like "Business Hours Call Flow") {
-    $AHCF = $AA.DefaultCallFlow.menu | where {$_.Name -like "MSPhone_AutoAttendant_*" -or $_.Name -like "Business hours call flow"} | select -First 1
+    $AHCF = $AA.DefaultCallFlow.menu
     $AHCFM = $AHCF.MenuOptions | where DtmfResponse -Like "Automatic" | select -First 1
     If ($AHCFM -ne $null) {
         $action = Get-AAAction
         if ($action -like "Redirect Call") {
             $AHCFM.Action = "TransferCallToTarget"
-            $AHCFM.CallTarget = New-CsAutoAttendantCallableEntity -Identity $RA_ObjectID -Type ApplicationEndpoint
+            $AHCFM.CallTarget = New-CsAutoAttendantCallableEntity -Identity $RA_ObjectID -Type ApplicationEndpoint -EnableTranscription $false
         }
         if ($action -like "Menu Options") {
             $key = Get-AAKey
             $AHCFM.Action = "TransferCallToTarget"
             $AHCFM.DtmfResponse = $key
-            $AHCFM.CallTarget = New-CsAutoAttendantCallableEntity -Identity $RA_ObjectID -Type ApplicationEndpoint
+            $AHCFM.CallTarget = New-CsAutoAttendantCallableEntity -Identity $RA_ObjectID -Type ApplicationEndpoint -EnableTranscription $false
             $AHCF.Prompts = $AHCF.Prompts = New-CsAutoAttendantPrompt -TextToSpeechPrompt "This is a default greeting. Please edit in the Teams Admin Center."
         }
     }
@@ -201,10 +202,11 @@ If ($Object -like "Business Hours Call Flow") {
             $mo.Action = "TransferCallToTarget"
             $mo.CallTarget.Type = "ApplicationEndpoint"
             $mo.CallTarget.ID = $RA_ObjectID
+            $mo.CallTarget.EnableTranscription = $false
         }
 
         if ($mo -eq $null) {
-            $Callable_Entity = New-CsAutoAttendantCallableEntity -Identity $RA_ObjectID -Type ApplicationEndpoint
+            $Callable_Entity = New-CsAutoAttendantCallableEntity -Identity $RA_ObjectID -Type ApplicationEndpoint -EnableTranscription $false
             $menuOption = New-CsAutoAttendantMenuOption -Action TransferCallToTarget -DtmfResponse $key -CallTarget $Callable_Entity
             if ($AHCF.MenuOptions -ne $null) {
                 $AHCF.MenuOptions.Add($menuOption)
@@ -217,6 +219,6 @@ If ($Object -like "Business Hours Call Flow") {
 }
 
 Try{
-    Set-CsAutoAttendant -Instance $aa
+    Set-CsAutoAttendant -Instance $aa -ErrorAction Stop
 } catch {Throw "Cannot Edit Auto Attendant. " + $error[0]}
 Write-Host "Auto attendant configuration changed sucessfully!"
