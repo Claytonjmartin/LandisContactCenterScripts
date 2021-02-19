@@ -178,7 +178,7 @@ Try {
                     $AHCF.MenuOptions.Add($menuOption)
                 }
                 if ($AHCF.MenuOptions -eq $null) {
-                    $AHCF.MenuOptions = $menuOption
+                    $AHCF.MenuOptions = @($menuOption)
                 }
             }  
         }
@@ -217,7 +217,7 @@ Try {
                     $AHCF.MenuOptions.Add($menuOption)
                 }
                 if ($AHCF.MenuOptions -eq $null) {
-                    $AHCF.MenuOptions = $menuOption
+                    $AHCF.MenuOptions = @($menuOption)
                 }
             }        
         }
