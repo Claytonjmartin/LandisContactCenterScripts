@@ -13,7 +13,7 @@ Try {
     $RAS = Get-CsOnlineApplicationInstance
     $Objects = @("After Hours Call Flow", "Business Hours Call Flow", "Operator", "Holiday")
     $Actions = @("Redirect Call", "Menu Options")
-    $dial_Key = @(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
+    $dial_Key = @(1, 2, 3, 4, 5, 6, 7, 8, 9, 0)
     $ErrorActionPreference = "Stop"
 
     #Select AA
