@@ -2,7 +2,7 @@
 
 #Prerequisites:
 #Active connection to Teams Powershell
-#Teams Auto Attendant and/or call queue created
+#Failover Teams Auto Attendant and/or call queue created
 #Resource account created for Landis Contact Center Queue/IVR
 
 #Author: Clayton Martin, Landis Technologies LLC
