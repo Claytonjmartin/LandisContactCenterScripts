@@ -1,4 +1,4 @@
-#This script will failover a Landis Contact Center resource account to a Teams auto attendant/call queue or failback the resource account to Landis Contact Center.
+#This script through a series of menu prompts will failover a Landis Contact Center resource account to a Teams auto attendant/call queue or failback the resource account to Landis Contact Center.
 
 #Prerequisites:
 #Active connection to Teams Powershell
