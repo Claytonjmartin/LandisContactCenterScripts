@@ -21,7 +21,7 @@ if ($Module) {
         $CQAID = "11cd3e2e-fccb-42ad-ad00-878b93575e07"
         $AAAID = "ce933385-9390-45d1-9512-c8d228074e07"
         $LCCAID = "341e195c-b261-4b05-8ba5-dd4a89b1f3e7"
-        $Actions = @("Failover to Teams", "Failback to Landis Contact Center", "Exit")
+    $Actions = @("Failover Landis Contact Center Queue or IVR to Teams", "Failback Teams queue or IVR to Landis Contact Center", "Exit")
         $Options = @("Teams Auto Attendant", "Teams Call Queue")
     }
     catch { Throw $error[0] }
@@ -181,7 +181,7 @@ if ($Module) {
                     $RA_ObjectID = $global:selection.ObjectId
                 }
                 Remove-CsOnlineApplicationInstanceAssociation -Identities $RA_ObjectID | Out-Null
-                Set-CsOnlineApplicationInstance -Identity $RA_ObjectID -ApplicationId "341e195c-b261-4b05-8ba5-dd4a89b1f3e7" | Out-Null
+                Set-CsOnlineApplicationInstance -Identity $RA_ObjectID -ApplicationId $LCCAID | Out-Null
                 Sync-CsOnlineApplicationInstance -ObjectId $RA_ObjectID
                 Write-Host 'Failback config completed'
             }
