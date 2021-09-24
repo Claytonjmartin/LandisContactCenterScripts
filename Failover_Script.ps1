@@ -127,7 +127,7 @@ try {
             }
             if ($CQS.count) {
                 Do {
-                    Write-Host 'Failing over to Teams Call Queue:'
+                    Write-Host 'Fail over to Teams Call Queue:'
 
                     for ($i = 0; $i -lt $CQS.count; $i++) {
                         Write-Host -ForegroundColor Cyan "  $($i+1)." $CQS.Name[$i]
