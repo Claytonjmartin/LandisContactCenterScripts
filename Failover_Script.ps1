@@ -21,7 +21,7 @@ if ($Module) {
         $CQAID = "11cd3e2e-fccb-42ad-ad00-878b93575e07"
         $AAAID = "ce933385-9390-45d1-9512-c8d228074e07"
         $LCCAID = "341e195c-b261-4b05-8ba5-dd4a89b1f3e7"
-    $Actions = @("Failover Landis Contact Center Queue or IVR to Teams", "Failback Teams queue or IVR to Landis Contact Center", "Exit")
+        $Actions = @("Failover Landis Contact Center Queue or IVR to Teams", "Failback Teams queue or IVR to Landis Contact Center", "Exit")
         $Options = @("Teams Auto Attendant", "Teams Call Queue")
     }
     catch { Throw $error[0] }
@@ -46,8 +46,8 @@ if ($Module) {
             $global:selection = $Actions[$ans - 1]
         }
         catch { Throw $error[0] }
-        if ($global:selection -eq "Exit"){
-            exit
+        if ($global:selection -eq "Exit") {
+            break
         }
         try {
             if ($global:selection -eq "Failover to Teams") {
