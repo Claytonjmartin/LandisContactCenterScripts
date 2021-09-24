@@ -16,8 +16,8 @@ if ($Module) {
         Connect-MicrosoftTeams
         Clear-Host
         Write-Host "Getting data......."
-        $AAS = Get-CsAutoAttendant | Out-Null
-        $CQS = Get-CsCallQueue | Out-Null
+        $AAS = Get-CsAutoAttendant -WarningAction silentlyContinue
+        $CQS = Get-CsCallQueue -WarningAction silentlyContinue
         $CQAID = "11cd3e2e-fccb-42ad-ad00-878b93575e07"
         $AAAID = "ce933385-9390-45d1-9512-c8d228074e07"
         $LCCAID = "341e195c-b261-4b05-8ba5-dd4a89b1f3e7"
