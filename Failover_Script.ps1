@@ -23,18 +23,18 @@ if ($Module) {
         $LCCAID = "341e195c-b261-4b05-8ba5-dd4a89b1f3e7"
         $Actions = @("Failover Landis Contact Center Queue or IVR to Teams Call Queue or Auto Attendant", "Failback Teams Queue or Auto Attendant to Landis Contact Center", "Exit")
         $Options = @("Teams Auto Attendant", "Teams Call Queue")
-        Write-Host "Getting Resource accounts. Please wait......"
-        $appInstacnesWithAppId = @()
-        $appInstances = Get-CsOnlineApplicationInstance
-        foreach ($appInstance in $appInstances) {
-            $details = Get-CsOnlineApplicationInstance -Identity $appInstance.ObjectId
-            $appInstacnesWithAppId += $details 
-        }
     }
     catch { Throw $error[0] }
     #Select Action
     function show-menu {
         try {
+            Write-Host "Getting Resource accounts. Please wait......"
+            $appInstacnesWithAppId = @()
+            $appInstances = Get-CsOnlineApplicationInstance
+            foreach ($appInstance in $appInstances) {
+                $details = Get-CsOnlineApplicationInstance -Identity $appInstance.ObjectId
+                $appInstacnesWithAppId += $details 
+            }
             $LCCRAS = $appInstacnesWithAppId | Where-Object { $_.ApplicationId -eq "341e195c-b261-4b05-8ba5-dd4a89b1f3e7" }
             $RAS = $appInstacnesWithAppId | Where-Object { ($_.ApplicationId -eq "11cd3e2e-fccb-42ad-ad00-878b93575e07") -or ($_.ApplicationId -eq "ce933385-9390-45d1-9512-c8d228074e07") }
             $global:selection = $null 
