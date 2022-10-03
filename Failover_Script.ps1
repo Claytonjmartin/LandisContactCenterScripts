@@ -127,6 +127,7 @@ if ($Module) {
                         $AA_Identity = $global:selection
                     }
                     New-CsOnlineApplicationInstanceAssociation -Identities @($LCCRAS_ObjectID) -ConfigurationId $AA_Identity.Identity -ConfigurationType AutoAttendant | Out-Null
+                    Write-Host 'Please wait....'
                     start-sleep -Seconds 30
                     Write-Host 'Failover Auto Attendant config completed'
                 }
@@ -159,6 +160,7 @@ if ($Module) {
                         $CQ_Identity = $global:selection
                     }
                     New-CsOnlineApplicationInstanceAssociation -Identities @($LCCRAS_ObjectID) -ConfigurationId $CQ_Identity.Identity -ConfigurationType CallQueue | Out-Null
+                    Write-Host 'Please wait....'
                     start-sleep -Seconds 30
                     Write-Host 'Failover Queue config completed'
                 }
@@ -192,6 +194,7 @@ if ($Module) {
                 Remove-CsOnlineApplicationInstanceAssociation -Identities $RA_ObjectID | Out-Null
                 Set-CsOnlineApplicationInstance -Identity $RA_ObjectID -ApplicationId $LCCAID | Out-Null
                 #Sync-CsOnlineApplicationInstance -ObjectId $RA_ObjectID
+                Write-Host 'Please wait....'
                 start-sleep -Seconds 30
                 Write-Host 'Failback config completed'
             }
