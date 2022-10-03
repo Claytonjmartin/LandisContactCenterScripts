@@ -13,7 +13,7 @@ if (!$Module) {
 }
 if ($Module) {
     try {
-        Connect-MicrosoftTeams
+        #Connect-MicrosoftTeams
         Clear-Host
         Write-Host "Getting Teams environment data......."
         $AAS = Get-CsAutoAttendant -WarningAction silentlyContinue
@@ -61,12 +61,12 @@ if ($Module) {
                 #Select LCC Resource Account
                 $global:selection = $null
                 Clear-Host
-                if (!$LCCRAS.count) {
+                if ($LCCRAS.count -le 1) {
                     $LCCRAS_ObjectID = $LCCRAS.ObjectId
                     $RAName = $LCCRAS.DisplayName
                     Read-Host "Failing over Landis Contact Center Resource Account $RAName. Press ENTER to continue..."
                 }
-                if ($LCCRAS.count) {
+                if ($LCCRAS.count -ge 2) {
                     Do {
                         Write-Host 'Landis Contact Center Resource Account to Failover:'
 
@@ -102,16 +102,16 @@ if ($Module) {
                 #if AA
                 if ($global:selection -eq "Teams Auto Attendant") {
                     Set-CsOnlineApplicationInstance -Identity $LCCRAS_ObjectID -ApplicationId $AAAID | Out-Null
-                    Sync-CsOnlineApplicationInstance -ObjectId $LCCRAS_ObjectID
+                    #Sync-CsOnlineApplicationInstance -ObjectId $LCCRAS_ObjectID
 
                     $global:selection = $null
                     Clear-Host
-                    if (!$aas.count) {
+                    if ($aas.count -le 1) {
                         $AA_Identity = $AAS
                         $AAName = $AAS.Name
                         Read-Host "Failing over to $AAName. Press ENTER to continue..."
                     }
-                    if ($AAS.count) {
+                    if ($AAS.count -ge 2) {
                         Do {
                             Write-Host 'Failover to Teams Auto Attendant:'
 
@@ -127,22 +127,23 @@ if ($Module) {
                         $AA_Identity = $global:selection
                     }
                     New-CsOnlineApplicationInstanceAssociation -Identities @($LCCRAS_ObjectID) -ConfigurationId $AA_Identity.Identity -ConfigurationType AutoAttendant | Out-Null
+                    start-sleep -Seconds 30
                     Write-Host 'Failover Auto Attendant config completed'
                 }
 
                 #if CQ
                 if ($global:selection -eq "Teams Call Queue") {
                     Set-CsOnlineApplicationInstance -Identity $LCCRAS_ObjectID -ApplicationId $CQAID
-                    Sync-CsOnlineApplicationInstance -ObjectId $LCCRAS_ObjectID
+                    #Sync-CsOnlineApplicationInstance -ObjectId $LCCRAS_ObjectID
 
                     $global:selection = $null
                     Clear-Host
-                    if (!$CQS.count) {
+                    if ($CQS.count -le 1) {
                         $CQ_Identity = $CQS
                         $CQName = $CQS.Name
                         Read-Host "Failing over to $CQName. Press ENTER to continue..."
                     }
-                    if ($CQS.count) {
+                    if ($CQS.count -ge 2) {
                         Do {
                             Write-Host 'Fail over to Teams Call Queue:'
 
@@ -158,6 +159,7 @@ if ($Module) {
                         $CQ_Identity = $global:selection
                     }
                     New-CsOnlineApplicationInstanceAssociation -Identities @($LCCRAS_ObjectID) -ConfigurationId $CQ_Identity.Identity -ConfigurationType CallQueue | Out-Null
+                    start-sleep -Seconds 30
                     Write-Host 'Failover Queue config completed'
                 }
             }
@@ -167,12 +169,12 @@ if ($Module) {
             if ($global:selection -eq "Failback Teams Queue or Auto Attendant to Landis Contact Center") {
                 $global:selection = $null
                 Clear-Host
-                if (!$ras.count) {
+                if ($ras.count -le 1) {
                     $RA_ObjectID = $RAS.ObjectId
                     $RAName = $RAS.DisplayName
                     Read-Host "Failing back $RAName. Press ENTER to continue..."
                 }
-                if ($RAS.count) {
+                if ($RAS.count -ge 2) {
                     Do {
                         Write-Host 'Resource Account to failback to Landis Contact Center:'
 
@@ -189,7 +191,8 @@ if ($Module) {
                 }
                 Remove-CsOnlineApplicationInstanceAssociation -Identities $RA_ObjectID | Out-Null
                 Set-CsOnlineApplicationInstance -Identity $RA_ObjectID -ApplicationId $LCCAID | Out-Null
-                Sync-CsOnlineApplicationInstance -ObjectId $RA_ObjectID
+                #Sync-CsOnlineApplicationInstance -ObjectId $RA_ObjectID
+                start-sleep -Seconds 30
                 Write-Host 'Failback config completed'
             }
         }
@@ -198,4 +201,3 @@ if ($Module) {
     }
     show-menu
 }
-
